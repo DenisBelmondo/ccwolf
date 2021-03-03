@@ -2,6 +2,8 @@
 
 #ifdef _WIN32
 #include <io.h>
+// [db] ughhh
+#define WINDOWS_IGNORE_PACKING_MISMATCH
 #else
 #include <unistd.h>
 #endif
