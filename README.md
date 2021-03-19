@@ -20,21 +20,18 @@ was pruned.
 - Unified Wolfenstein 3D and Spear of Destiny client.
 - Intelligently detecting game data files.
 
-
 ## For developers:
-- I moved the build system to [SCons](https://scons.org/),sorry if that's an
- inconvenience :/
-     - Download pip.
-     - Run `python -m pip install scons`
+I moved the build system to [SCons](https://scons.org/),sorry if that's an inconvenience :/
+- Download pip.
+- Run `python -m pip install scons`
  [(more info)](https://scons.org/doc/production/HTML/scons-user/ch01s02.html)
-     - In a command prompt, cd to the source folder and run `scons`
-          - add `-j<jobs>` to speed up compilation
+- In a command prompt, cd to the source folder and run `scons`
+     - add `-j<jobs>` to speed up compilation
           - example: `scons -j4`
-     - Place your WL6 files in the source directory.
-     - Run `wolf4sdl2`
+- Place your WL6 files in the source directory.
+- Run `ccwolf`
 
 ---
-
 
 # Original Wolf4SDL Readme
 ```
