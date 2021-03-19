@@ -41,7 +41,7 @@ sources = [
 
 env = Environment()
 
-gpl                = ARGUMENTS.get('gpl', '')
+gpl                = ARGUMENTS.get('gpl', False)
 target             = ARGUMENTS.get('target', 'debug')
 sdl2_main_lib      = ARGUMENTS.get('sdl2_main_lib', '')
 sdl2_include       = ARGUMENTS.get('sdl2_include', '')
@@ -50,7 +50,8 @@ sdl2_mixer_include = ARGUMENTS.get('sdl2_mixer_include', '')
 sdl2_mixer_lib     = ARGUMENTS.get('sdl2_mixer_lib', '')
 
 if gpl:
-    sources.insert(0, 'dosbox/fmopl.cpp')
+    env.Append(CPPDEFINES=['USE_GPL'])
+    sources.insert(0, 'dosbox/dbopl.cpp')
 else:
     sources.insert(0, 'mame/fmopl.cpp')
 
@@ -60,7 +61,7 @@ if env['PLATFORM'] == 'win32':
     env.Append(CCFLAGS=['-W3', '-GR'])
     if target in ('debug', 'd'):
         env.Append(CPPDEFINES=['_DEBUG'])
-        env.Append(CCFLAGS=['-EHsc', '-MDd', '-ZI'])
+        env.Append(CCFLAGS=['-EHsc', '-MDd', '-ZI', '-FS'])
         env['LINKFLAGS'] += ['-DEBUG']
     else:
         env.Append(CPPDEFINES=['NDEBUG'])
