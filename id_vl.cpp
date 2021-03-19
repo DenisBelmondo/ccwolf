@@ -96,6 +96,12 @@ void VL_SetVGAPlaneMode(void)
     title = "Wolfenstein 3D";
 #endif
 
+    SDL_DisplayMode dm;
+    SDL_GetDesktopDisplayMode(0, &dm);
+
+    screenWidth = dm.w;
+    screenHeight = dm.h;
+
     window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight,
                               SDL_WINDOW_ALLOW_HIGHDPI | (fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
     if (!window)
