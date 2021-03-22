@@ -514,9 +514,6 @@ byte VL_GetPixel(int x, int y)
     byte *ptr;
     byte col;
 
-    assert_ret(x >= 0 && (unsigned)x < screenWidth && y >= 0 && (unsigned)y < screenHeight &&
-               "VL_GetPixel: Pixel out of bounds!");
-
     ptr = VL_LockSurface(curSurface);
     if (ptr == NULL)
         return 0;
