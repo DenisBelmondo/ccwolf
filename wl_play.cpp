@@ -1,7 +1,6 @@
 // WL_PLAY.C
 
 #include "wl_def.h"
-#pragma hdrstop
 
 #include "wl_cloudsky.h"
 #include "wl_shade.h"
@@ -743,7 +742,7 @@ void InitActorList(void)
 = Sets the global variable new to point to a free spot in objlist.
 = The free spot is inserted at the end of the liked list
 =
-= When the object list is full, the caller can either have it bomb out ot
+= When the object list is full, the caller can either have it bomb out or
 = return a dummy object pointer that will never get used
 =
 =========================

@@ -3,7 +3,6 @@
 #include "wl_def.h"
 #include <SDL_mixer.h>
 #include <math.h>
-#pragma hdrstop
 
 #ifdef MYPROFILE
 #include <TIME.H>

@@ -2,23 +2,6 @@
 
 #include "wl_def.h"
 #include <string.h>
-#pragma hdrstop
-
-// Uncomment the following line, if you get destination out of bounds
-// assertion errors and want to ignore them during debugging
-//#define IGNORE_BAD_DEST
-
-#ifdef IGNORE_BAD_DEST
-#undef assert
-#define assert(x)                                                                                                      \
-    if (!(x))                                                                                                          \
-    return
-#define assert_ret(x)                                                                                                  \
-    if (!(x))                                                                                                          \
-    return 0
-#else
-#define assert_ret(x) assert(x)
-#endif
 
 boolean fullscreen = true;
 
@@ -29,7 +12,7 @@ unsigned screenBits = -1; // use "best" color depth according to libSDL
 
 SDL_Window *window;
 static SDL_Renderer *renderer;
-static SDL_Texture *texture;
+static SDL_Texture  *texture;
 
 SDL_Surface *screen = NULL;
 unsigned screenPitch;
@@ -99,11 +82,23 @@ void VL_SetVGAPlaneMode(void)
     SDL_DisplayMode dm;
     SDL_GetDesktopDisplayMode(0, &dm);
 
-    screenWidth = dm.w;
+    screenWidth  = dm.w;
     screenHeight = dm.h;
 
-    window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight,
-                              SDL_WINDOW_ALLOW_HIGHDPI | (fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
+    uint32_t window_flags = SDL_WINDOW_ALLOW_HIGHDPI;
+
+    if (fullscreen)
+    {
+        window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+    }
+
+    window = SDL_CreateWindow(
+        title,
+        SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+        screenWidth, screenHeight,
+        window_flags
+    );
+
     if (!window)
     {
         printf("Unable to create %ix%ix%i window: %s\n", screenWidth, screenHeight, screenBits, SDL_GetError());
@@ -111,17 +106,21 @@ void VL_SetVGAPlaneMode(void)
     }
 
     renderer = SDL_CreateRenderer(window, -1, 0);
+
     if (!renderer)
     {
         printf("Unable to create renderer: %s\n", SDL_GetError());
         exit(1);
     }
+
     SDL_RendererInfo info;
+
     if (SDL_GetRendererInfo(renderer, &info) < 0)
     {
         printf("Unable to get renderer info: %s\n", SDL_GetError());
         exit(1);
     }
+
     for (Uint32 i = 0; i < info.num_texture_formats; ++i)
     {
         // TODO: debug this
@@ -132,64 +131,78 @@ void VL_SetVGAPlaneMode(void)
         }
     }
 
-    texture =
-        SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, screenWidth, screenHeight);
+    texture = SDL_CreateTexture(
+        renderer,
+        SDL_PIXELFORMAT_ABGR8888,
+        SDL_TEXTUREACCESS_STREAMING,
+        screenWidth, screenHeight
+    );
+
     if (!texture)
     {
         printf("Unable to create texture: %s\n", SDL_GetError());
         exit(1);
     }
 
-    //    screen = SDL_SetVideoMode(screenWidth, screenHeight, screenBits,
-    //          (usedoublebuffering ? SDL_HWSURFACE | SDL_DOUBLEBUF : 0)
-    //        | (screenBits == 8 ? SDL_HWPALETTE : 0)
-    //        | (fullscreen ? SDL_FULLSCREEN : 0));
     screen = SDL_CreateRGBSurface(0, screenWidth, screenHeight, 32, 0, 0, 0, 0);
+
     if (!screen)
     {
         printf("Unable to set %ix%ix%i video mode: %s\n", screenWidth, screenHeight, screenBits, SDL_GetError());
         exit(1);
     }
-    //    if((screen->flags & SDL_DOUBLEBUF) != SDL_DOUBLEBUF)
-    //        usedoublebuffering = false;
+
     SDL_ShowCursor(SDL_DISABLE);
 
-    //    SDL_SetColors(screen, gamepal, 0, 256);
     memcpy(curpal, gamepal, sizeof(SDL_Color) * 256);
 
-    screenBuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, screenWidth, screenHeight, 8, 0, 0, 0, 0);
+    screenBuffer = SDL_CreateRGBSurface(
+        SDL_SWSURFACE,
+        screenWidth, screenHeight, 8, 0, 0, 0, 0
+    );
+
     if (!screenBuffer)
     {
         printf("Unable to create screen buffer surface: %s\n", SDL_GetError());
         exit(1);
     }
+
     SDL_Palette *sdlpal = SDL_AllocPalette(256);
+
     if (!sdlpal)
+    {
+        printf("Unable to allocate palette.\n");
         exit(1);
+    }
+
     if (SDL_SetPaletteColors(sdlpal, gamepal, 0, 256) < 0)
     {
         printf("Unable to set palette colors: %s\n", SDL_GetError());
         exit(1);
     }
+
     if (SDL_SetSurfacePalette(screenBuffer, sdlpal) < 0)
     {
         printf("Unable to set surface palette: %s\n", SDL_GetError());
         exit(1);
     }
-    //    SDL_SetColors(screenBuffer, gamepal, 0, 256);
 
     screenPitch = screen->pitch;
     bufferPitch = screenBuffer->pitch;
 
     curSurface = screenBuffer;
-    curPitch = bufferPitch;
+    curPitch   = bufferPitch;
 
     scaleFactor = screenWidth / 320;
+
     if (screenHeight / 200 < scaleFactor)
+    {
         scaleFactor = screenHeight / 200;
+    }
 
     pixelangle = (short *)malloc(screenWidth * sizeof(short));
     CHECKMALLOCRESULT(pixelangle);
+
     wallheight = (int *)malloc(screenWidth * sizeof(int));
     CHECKMALLOCRESULT(wallheight);
 }
