@@ -1,7 +1,11 @@
 // WL_INTER.C
 
+#include "wl_inter.hpp"
 #include "wl_agent.hpp"
 #include "wl_def.h"
+#include "wl_game.hpp"
+#include "wl_text.hpp"
+
 
 LRstruct LevelRatios[LRpack];
 int32_t lastBreathTime = 0;

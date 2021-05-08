@@ -1,11 +1,16 @@
 // WL_GAME.C
 
+#include <SDL_mixer.h>
+#include <math.h>
+
 #include "wl_act1.hpp"
 #include "wl_act2.hpp"
 #include "wl_agent.hpp"
 #include "wl_def.h"
-#include <SDL_mixer.h>
-#include <math.h>
+#include "wl_draw.hpp"
+#include "wl_game.hpp"
+#include "wl_inter.hpp"
+#include "wl_play.hpp"
 
 #ifdef MYPROFILE
 #include <TIME.H>

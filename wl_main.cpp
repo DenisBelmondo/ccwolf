@@ -8,12 +8,20 @@
 #include <unistd.h>
 #endif
 
-#include "wl_agent.hpp"
+#include <SDL_syswm.h>
+
 #include "wl_act1.hpp"
 #include "wl_act2.hpp"
-#include "wl_def.h"
+#include "wl_agent.hpp"
 #include "wl_atmos.h"
-#include <SDL_syswm.h>
+#include "wl_debug.hpp"
+#include "wl_def.h"
+#include "wl_draw.hpp"
+#include "wl_game.hpp"
+#include "wl_inter.hpp"
+#include "wl_main.hpp"
+#include "wl_play.hpp"
+
 
 /*
 =============================================================================

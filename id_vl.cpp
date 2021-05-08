@@ -1,7 +1,10 @@
 // ID_VL.C
 
-#include "wl_def.h"
 #include <string.h>
+
+#include "wl_def.h"
+#include "wl_draw.hpp"
+
 
 boolean fullscreen = true;
 

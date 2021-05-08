@@ -1,7 +1,9 @@
 // WL_ACT1.C
 
-#include "wl_def.h"
 #include "wl_act1.hpp"
+#include "wl_def.h"
+#include "wl_game.hpp"
+#include "wl_play.hpp"
 
 /*
 =============================================================================

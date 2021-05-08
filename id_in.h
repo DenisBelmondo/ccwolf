@@ -12,6 +12,8 @@
 #define __DEBUG_InputMgr__
 #endif
 
+#include "wl_main.hpp"
+
 typedef int ScanCode;
 #define sc_None 0
 #define sc_Bad 0xff

@@ -16,6 +16,12 @@
 
 #include "wl_agent.hpp"
 #include "wl_def.h"
+#include "wl_draw.hpp"
+#include "wl_game.hpp"
+#include "wl_inter.hpp"
+#include "wl_play.hpp"
+#include "wl_text.hpp"
+
 
 extern int lastgamemusicoffset;
 extern int numEpisodesMissing;

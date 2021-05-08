@@ -1,6 +1,8 @@
 // WL_TEXT.C
 
 #include "wl_def.h"
+#include "wl_game.hpp"
+#include "wl_text.hpp"
 
 /*
 =============================================================================

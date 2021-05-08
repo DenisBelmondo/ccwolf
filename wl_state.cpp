@@ -1,9 +1,12 @@
 // WL_STATE.C
 
-#include "wl_agent.hpp"
 #include "wl_act1.hpp"
 #include "wl_act2.hpp"
+#include "wl_agent.hpp"
 #include "wl_def.h"
+#include "wl_game.hpp"
+#include "wl_play.hpp"
+#include "wl_state.hpp"
 
 /*
 =============================================================================

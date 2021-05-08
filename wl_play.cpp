@@ -1,9 +1,15 @@
 // WL_PLAY.C
 
-#include "wl_agent.hpp"
+#include "wl_play.hpp"
 #include "wl_act1.hpp"
 #include "wl_act2.hpp"
+#include "wl_agent.hpp"
+#include "wl_debug.hpp"
 #include "wl_def.h"
+#include "wl_draw.hpp"
+#include "wl_game.hpp"
+#include "wl_inter.hpp"
+
 
 #include "wl_cloudsky.h"
 #include "wl_shade.h"
