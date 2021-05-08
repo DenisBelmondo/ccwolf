@@ -1519,7 +1519,7 @@ static void DemoLoop()
             PlayDemo(0);
 #endif
 
-            if (playstate == ex_abort)
+            if (playstate == ExitType::abort)
                 break;
             VW_FadeOut();
             if (screenHeight % 200 != 0)

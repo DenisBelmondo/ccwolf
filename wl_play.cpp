@@ -34,7 +34,7 @@
 
 boolean madenoise; // true when shooting or screaming
 
-exit_t playstate;
+ExitType playstate;
 
 static musicnames lastmusicchunk = (musicnames)0;
 
@@ -382,7 +382,7 @@ void PollControls(void)
         controly = *demoptr++;
 
         if (demoptr == lastdemoptr)
-            playstate = ex_completed; // demo is done
+            playstate = ExitType::completed; // demo is done
 
         controlx *= (int)tics;
         controly *= (int)tics;
@@ -450,7 +450,7 @@ void PollControls(void)
         *demoptr++ = controly;
 
         if (demoptr >= lastdemoptr - 8)
-            playstate = ex_completed;
+            playstate = ExitType::completed;
         else
         {
             controlx *= (int)tics;
@@ -650,7 +650,7 @@ void CheckKeys(void)
         if (!startgame && !loadedgame)
             ContinueMusic(lastoffs);
         if (loadedgame)
-            playstate = ex_abort;
+            playstate = ExitType::abort;
         lasttimecount = GetTimeCount();
         if (MousePresent && IN_IsInputGrabbed())
             IN_CenterMouse(); // Clear accumulated mouse movement
@@ -1186,7 +1186,7 @@ void PlayLoop(void)
     InitLevelShadeTable();
 #endif
 
-    playstate = ex_stillplaying;
+    playstate = ExitType::still_playing;
     lasttimecount = GetTimeCount();
     frameon = 0;
     anglefrac = 0;
@@ -1258,11 +1258,11 @@ void PlayLoop(void)
             if (IN_CheckAck())
             {
                 IN_ClearKeysDown();
-                playstate = ex_abort;
+                playstate = ExitType::abort;
             }
         }
     } while (!playstate && !startgame);
 
-    if (playstate != ex_died)
+    if (playstate != ExitType::died)
         FinishPaletteShifts();
 }

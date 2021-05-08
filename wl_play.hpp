@@ -31,7 +31,7 @@ extern int controlx, controly; // range from -100 to 100
 extern boolean buttonstate[NUMBUTTONS];
 extern objtype objlist[MAXACTORS];
 extern boolean buttonheld[NUMBUTTONS];
-extern exit_t playstate;
+extern ExitType playstate;
 extern boolean madenoise;
 extern statobj_t statobjlist[MAXSTATS];
 extern statobj_t *laststatobj;

@@ -420,7 +420,7 @@ void TakeDamage(int points, objtype *attacker)
     if (gamestate.health <= 0)
     {
         gamestate.health = 0;
-        playstate = ex_died;
+        playstate = ExitType::died;
         killerobj = attacker;
     }
 
@@ -799,7 +799,7 @@ void GetBonus(statobj_t *check)
         spearx = player->x;
         speary = player->y;
         spearangle = player->angle;
-        playstate = ex_completed;
+        playstate = ExitType::completed;
 #endif
     }
 
@@ -1125,9 +1125,9 @@ void Cmd_Use(void)
 
         tilemap[checkx][checky]++; // flip switch
         if (*(mapsegs[0] + (player->tiley << mapshift) + player->tilex) == ALTELEVATORTILE)
-            playstate = ex_secretlevel;
+            playstate = ExitType::secret_level;
         else
-            playstate = ex_completed;
+            playstate = ExitType::completed;
         SD_PlaySound(LEVELDONESND);
         SD_WaitSoundDone();
     }

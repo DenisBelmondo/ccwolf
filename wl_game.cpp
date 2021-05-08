@@ -33,7 +33,7 @@
 */
 
 boolean ingame, fizzlein;
-gametype gamestate;
+Game gamestate;
 byte bordercol = VIEWCOLOR; // color of the Change View/Ingame border
 
 #ifdef SPEAR
@@ -1444,7 +1444,7 @@ restartgame:
         StopMusic();
         ingame = false;
 
-        if (demorecord && playstate != ex_warped)
+        if (demorecord && playstate != ExitType::warped)
             FinishDemoRecord();
 
         if (startgame || loadedgame)
@@ -1452,8 +1452,8 @@ restartgame:
 
         switch (playstate)
         {
-        case ex_completed:
-        case ex_secretlevel:
+        case ExitType::completed:
+        case ExitType::secret_level:
             if (viewsize == 21)
                 DrawPlayScreen();
             gamestate.keys = 0;
@@ -1514,7 +1514,7 @@ restartgame:
                 //
                 // GOING TO SECRET LEVEL
                 //
-                if (playstate == ex_secretlevel)
+                if (playstate == ExitType::secret_level)
                 gamestate.mapon = 9;
 #else
 
@@ -1524,7 +1524,7 @@ restartgame:
             //
             // GOING TO SECRET LEVEL
             //
-            if (playstate == ex_secretlevel)
+            if (playstate == ExitType::secret_level)
                 switch (gamestate.mapon)
                 {
                 case FROMSECRET1:
@@ -1556,7 +1556,7 @@ restartgame:
                 gamestate.mapon++;
             break;
 
-        case ex_died:
+        case ExitType::died:
             Died();
             died = true; // don't "get psyched!"
 
@@ -1576,7 +1576,7 @@ restartgame:
             MainMenu[viewscores].routine = CP_ViewScores;
             return;
 
-        case ex_victorious:
+        case ExitType::victorious:
             if (viewsize == 21)
                 DrawPlayScreen();
 #ifndef SPEAR

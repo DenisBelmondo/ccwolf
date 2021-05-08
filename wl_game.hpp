@@ -8,7 +8,7 @@
 #include "cc_types.hpp"
 using namespace CcWolf::Types;
 
-extern gametype gamestate;
+extern Game gamestate;
 extern byte bordercol;
 extern SDL_Surface *latchpics[NUMLATCHPICS];
 extern char demoname[13];

@@ -1227,7 +1227,7 @@ enum
 //
 //---------------
 
-struct gametype
+struct Game
 {
     short difficulty;
     short mapon;
@@ -1247,18 +1247,18 @@ struct gametype
     boolean victoryflag; // set during victory animations
 };
 
-enum exit_t
+enum class ExitType
 {
-    ex_stillplaying,
-    ex_completed,
-    ex_died,
-    ex_warped,
-    ex_resetgame,
-    ex_loadedgame,
-    ex_victorious,
-    ex_abort,
-    ex_demodone,
-    ex_secretlevel
+    still_playing,
+    completed,
+    died,
+    warped,
+    reset_game,
+    loaded_game,
+    victorious,
+    abort,
+    demo_done,
+    secret_level
 };
 
 extern word *mapsegs[MAPPLANES];
