@@ -57,6 +57,7 @@ else:
 
 if env['PLATFORM'] == 'win32':
     libs.insert(0, 'shell32')
+    env.Append(CXXFLAGS=['/std:c++17'])
 
     env.Append(CCFLAGS=['-W3', '-GR'])
     if target in ('debug', 'd'):
