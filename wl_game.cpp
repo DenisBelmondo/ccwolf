@@ -1,5 +1,8 @@
 // WL_GAME.C
 
+#include "wl_act1.hpp"
+#include "wl_act2.hpp"
+#include "wl_agent.hpp"
 #include "wl_def.h"
 #include <SDL_mixer.h>
 #include <math.h>

@@ -14,6 +14,7 @@
 #include <unistd.h>
 #endif
 
+#include "wl_agent.hpp"
 #include "wl_def.h"
 
 extern int lastgamemusicoffset;

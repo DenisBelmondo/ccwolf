@@ -1,5 +1,6 @@
 // WL_INTER.C
 
+#include "wl_agent.hpp"
 #include "wl_def.h"
 
 LRstruct LevelRatios[LRpack];

@@ -6,6 +6,9 @@
 #include <unistd.h>
 #endif
 
+#include "wl_act1.hpp"
+#include "wl_act2.hpp"
+#include "wl_agent.hpp"
 #include "wl_def.h"
 
 #ifdef USE_CLOUDSKY

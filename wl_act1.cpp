@@ -1,6 +1,7 @@
 // WL_ACT1.C
 
 #include "wl_def.h"
+#include "wl_act1.hpp"
 
 /*
 =============================================================================
@@ -13,12 +14,14 @@
 statobj_t statobjlist[MAXSTATS];
 statobj_t *laststatobj;
 
-struct
+struct Static
 {
     short picnum;
     wl_stat_t type;
     uint32_t specialFlags; // they are ORed to the statobj_t flags
-} statinfo[] = {
+};
+
+Static statinfo[] = {
     {SPR_STAT_0},                       // puddle          spr1v
     {SPR_STAT_1, block},                // Green Barrel    "
     {SPR_STAT_2, block},                // Table/chairs    "

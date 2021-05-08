@@ -50,21 +50,18 @@
 #include "gfxv_sod.h"
 #endif
 
-typedef uint8_t byte;
-typedef uint16_t word;
-typedef int32_t fixed;
-typedef uint32_t longword;
-typedef int8_t boolean;
-typedef void *memptr;
+#include "cc_types.hpp"
+using namespace CcWolf::Types;
 
-typedef struct
+struct Point
 {
     int x, y;
-} Point;
-typedef struct
+};
+
+struct Rect
 {
     Point ul, lr;
-} Rect;
+};
 
 void Quit(const char *errorStr, ...);
 
@@ -1069,7 +1066,7 @@ typedef enum
 } dirtype;
 
 #define NUMENEMIES 22
-typedef enum
+enum enemy_t
 {
     en_guard,
     en_officer,
@@ -1093,18 +1090,7 @@ typedef enum
     en_uber,
     en_will,
     en_death
-} enemy_t;
-
-typedef void (*statefunc)(void *);
-
-typedef struct statestruct
-{
-    boolean rotate;
-    short shapenum; // a shapenum of -1 means get from ob->temp1
-    short tictime;
-    void (*think)(void *), (*action)(void *);
-    struct statestruct *next;
-} statetype;
+};
 
 //---------------------
 //
@@ -1112,14 +1098,14 @@ typedef struct statestruct
 //
 //---------------------
 
-typedef struct statstruct
+struct statobj_t
 {
     byte tilex, tiley;
     short shapenum; // if shapenum == -1 the obj has been removed
     byte *visspot;
     uint32_t flags;
     byte itemnumber;
-} statobj_t;
+};
 
 //---------------------
 //
@@ -1127,22 +1113,22 @@ typedef struct statstruct
 //
 //---------------------
 
-typedef enum
+enum doortype
 {
     dr_open,
     dr_closed,
     dr_opening,
     dr_closing
-} doortype;
+};
 
-typedef struct doorstruct
+struct doorobj_t
 {
     byte tilex, tiley;
     boolean vertical;
     byte lock;
     doortype action;
     short ticcount;
-} doorobj_t;
+};
 
 //--------------------
 //
@@ -1150,12 +1136,26 @@ typedef struct doorstruct
 //
 //--------------------
 
-typedef struct objstruct
+struct objtype;
+
+using statefunc = void(objtype*);
+
+struct statetype
+{
+    boolean   rotate;
+    short     shapenum; // a shapenum of -1 means get from ob->temp1
+    short     tictime;
+    statefunc *think;
+    statefunc *action;
+    statetype *next;
+};
+
+struct objtype
 {
     activetype active;
-    short ticcount;
-    classtype obclass;
-    statetype *state;
+    short      ticcount;
+    classtype  obclass;
+    statetype  *state;
 
     uint32_t flags; // FL_SHOOTABLE, etc
 
@@ -1163,20 +1163,20 @@ typedef struct objstruct
     dirtype dir;
 
     fixed x, y;
-    word tilex, tiley;
-    byte areanumber;
+    word  tilex, tiley;
+    byte  areanumber;
 
     short viewx;
-    word viewheight;
+    word  viewheight;
     fixed transx, transy; // in global coord
 
-    short angle;
-    short hitpoints;
+    short   angle;
+    short   hitpoints;
     int32_t speed;
 
     short temp1, temp2, hidden;
-    struct objstruct *next, *prev;
-} objtype;
+    objtype *next, *prev;
+};
 
 enum
 {
@@ -1199,17 +1199,19 @@ enum
     bt_movebackward,
     bt_turnleft,
     bt_turnright,
-    NUMBUTTONS
+
+    NUMBUTTONS,
 };
 
-#define NUMWEAPONS 4
-typedef enum
+enum weapontype
 {
     wp_knife,
     wp_pistol,
     wp_machinegun,
-    wp_chaingun
-} weapontype;
+    wp_chaingun,
+
+    NUMWEAPONS,
+};
 
 enum
 {
@@ -1225,7 +1227,7 @@ enum
 //
 //---------------
 
-typedef struct
+struct gametype
 {
     short difficulty;
     short mapon;
@@ -1243,9 +1245,9 @@ typedef struct
     int32_t TimeCount;
     int32_t killx, killy;
     boolean victoryflag; // set during victory animations
-} gametype;
+};
 
-typedef enum
+enum exit_t
 {
     ex_stillplaying,
     ex_completed,
@@ -1257,7 +1259,7 @@ typedef enum
     ex_abort,
     ex_demodone,
     ex_secretlevel
-} exit_t;
+};
 
 extern word *mapsegs[MAPPLANES];
 extern int mapon;
@@ -1493,12 +1495,12 @@ extern fixed viewsin, viewcos;
 void ThreeDRefresh(void);
 void CalcTics(void);
 
-typedef struct
+struct t_compshape
 {
     word leftpix, rightpix;
     word dataofs[64];
     // table data after dataofs[rightpix-leftpix+1]
-} t_compshape;
+};
 
 /*
 =============================================================================
@@ -1527,173 +1529,6 @@ void DamageActor(objtype *ob, unsigned damage);
 
 boolean CheckLine(objtype *ob);
 boolean CheckSight(objtype *ob);
-
-/*
-=============================================================================
-
-                             WL_AGENT DEFINITIONS
-
-=============================================================================
-*/
-
-extern short anglefrac;
-extern int facecount, facetimes;
-extern word plux, pluy; // player coordinates scaled to unsigned
-extern int32_t thrustspeed;
-extern objtype *LastAttacker;
-
-void Thrust(int angle, int32_t speed);
-void SpawnPlayer(int tilex, int tiley, int dir);
-void TakeDamage(int points, objtype *attacker);
-void GivePoints(int32_t points);
-void GetBonus(statobj_t *check);
-void GiveWeapon(int weapon);
-void GiveAmmo(int ammo);
-void GiveKey(int key);
-
-//
-// player state info
-//
-
-void StatusDrawFace(unsigned picnum);
-void DrawFace(void);
-void DrawHealth(void);
-void HealSelf(int points);
-void DrawLevel(void);
-void DrawLives(void);
-void GiveExtraMan(void);
-void DrawScore(void);
-void DrawWeapon(void);
-void DrawKeys(void);
-void DrawAmmo(void);
-
-/*
-=============================================================================
-
-                             WL_ACT1 DEFINITIONS
-
-=============================================================================
-*/
-
-extern doorobj_t doorobjlist[MAXDOORS];
-extern doorobj_t *lastdoorobj;
-extern short doornum;
-
-extern word doorposition[MAXDOORS];
-
-extern byte areaconnect[NUMAREAS][NUMAREAS];
-
-extern boolean areabyplayer[NUMAREAS];
-
-extern word pwallstate;
-extern word pwallpos; // amount a pushable wall has been moved (0-63)
-extern word pwallx, pwally;
-extern byte pwalldir, pwalltile;
-
-void InitDoorList(void);
-void InitStaticList(void);
-void SpawnStatic(int tilex, int tiley, int type);
-void SpawnDoor(int tilex, int tiley, boolean vertical, int lock);
-void MoveDoors(void);
-void MovePWalls(void);
-void OpenDoor(int door);
-void PlaceItemType(int itemtype, int tilex, int tiley);
-void PushWall(int checkx, int checky, int dir);
-void OperateDoor(int door);
-void InitAreas(void);
-
-/*
-=============================================================================
-
-                             WL_ACT2 DEFINITIONS
-
-=============================================================================
-*/
-
-#define s_nakedbody s_static10
-
-extern statetype s_grddie1;
-extern statetype s_dogdie1;
-extern statetype s_ofcdie1;
-extern statetype s_mutdie1;
-extern statetype s_ssdie1;
-extern statetype s_bossdie1;
-extern statetype s_schabbdie1;
-extern statetype s_fakedie1;
-extern statetype s_mechadie1;
-extern statetype s_hitlerdie1;
-extern statetype s_greteldie1;
-extern statetype s_giftdie1;
-extern statetype s_fatdie1;
-
-extern statetype s_spectredie1;
-extern statetype s_angeldie1;
-extern statetype s_transdie0;
-extern statetype s_uberdie0;
-extern statetype s_willdie1;
-extern statetype s_deathdie1;
-
-extern statetype s_grdchase1;
-extern statetype s_dogchase1;
-extern statetype s_ofcchase1;
-extern statetype s_sschase1;
-extern statetype s_mutchase1;
-extern statetype s_bosschase1;
-extern statetype s_schabbchase1;
-extern statetype s_fakechase1;
-extern statetype s_mechachase1;
-extern statetype s_gretelchase1;
-extern statetype s_giftchase1;
-extern statetype s_fatchase1;
-
-extern statetype s_spectrechase1;
-extern statetype s_angelchase1;
-extern statetype s_transchase1;
-extern statetype s_uberchase1;
-extern statetype s_willchase1;
-extern statetype s_deathchase1;
-
-extern statetype s_blinkychase1;
-extern statetype s_hitlerchase1;
-
-extern statetype s_grdpain;
-extern statetype s_grdpain1;
-extern statetype s_ofcpain;
-extern statetype s_ofcpain1;
-extern statetype s_sspain;
-extern statetype s_sspain1;
-extern statetype s_mutpain;
-extern statetype s_mutpain1;
-
-extern statetype s_deathcam;
-
-extern statetype s_schabbdeathcam2;
-extern statetype s_hitlerdeathcam2;
-extern statetype s_giftdeathcam2;
-extern statetype s_fatdeathcam2;
-
-void SpawnStand(enemy_t which, int tilex, int tiley, int dir);
-void SpawnPatrol(enemy_t which, int tilex, int tiley, int dir);
-void KillActor(objtype *ob);
-
-void SpawnDeadGuard(int tilex, int tiley);
-void SpawnBoss(int tilex, int tiley);
-void SpawnGretel(int tilex, int tiley);
-void SpawnTrans(int tilex, int tiley);
-void SpawnUber(int tilex, int tiley);
-void SpawnWill(int tilex, int tiley);
-void SpawnDeath(int tilex, int tiley);
-void SpawnAngel(int tilex, int tiley);
-void SpawnSpectre(int tilex, int tiley);
-void SpawnGhosts(int which, int tilex, int tiley);
-void SpawnSchabbs(int tilex, int tiley);
-void SpawnGift(int tilex, int tiley);
-void SpawnFat(int tilex, int tiley);
-void SpawnFakeHitler(int tilex, int tiley);
-void SpawnHitler(int tilex, int tiley);
-
-void A_DeathScream(objtype *ob);
-void SpawnBJVictory(void);
 
 /*
 =============================================================================
