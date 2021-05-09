@@ -62,7 +62,7 @@ static int picx;
 static int picy;
 static int picnum;
 static int picdelay;
-static boolean layoutdone;
+static bool layoutdone;
 
 //===========================================================================
 
@@ -401,7 +401,7 @@ void HandleWord(void)
 =====================
 */
 
-void PageLayout(boolean shownumber)
+void PageLayout(bool shownumber)
 {
     int i, oldfontcolor;
     char ch;
@@ -602,7 +602,7 @@ void ShowArticle(char *article)
     };
 #endif
     unsigned oldfontnumber;
-    boolean newpage, firstpage;
+    bool newpage, firstpage;
     ControlInfo ci;
 
 #ifdef JAPAN
@@ -650,26 +650,26 @@ void ShowArticle(char *article)
         Direction dir = ci.dir;
         switch (dir)
         {
-        case dir_North:
-        case dir_South:
+        case Direction::dir_North:
+        case Direction::dir_South:
             break;
 
         default:
             if (ci.button0)
-                dir = dir_South;
+                dir = Direction::dir_South;
             switch (LastScan)
             {
             case sc_UpArrow:
             case sc_PgUp:
             case sc_LeftArrow:
-                dir = dir_North;
+                dir = Direction::dir_North;
                 break;
 
             case sc_Enter:
             case sc_DownArrow:
             case sc_PgDn:
             case sc_RightArrow:
-                dir = dir_South;
+                dir = Direction::dir_South;
                 break;
             }
             break;
@@ -677,8 +677,8 @@ void ShowArticle(char *article)
 
         switch (dir)
         {
-        case dir_North:
-        case dir_West:
+        case Direction::dir_North:
+        case Direction::dir_West:
             if (pagenum > 1)
             {
 #ifndef JAPAN
@@ -692,8 +692,8 @@ void ShowArticle(char *article)
             TicDelay(20);
             break;
 
-        case dir_South:
-        case dir_East:
+        case Direction::dir_South:
+        case Direction::dir_East:
             if (pagenum < numpages)
             {
                 newpage = true;

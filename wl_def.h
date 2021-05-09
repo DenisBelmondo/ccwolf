@@ -1124,7 +1124,7 @@ enum doortype
 struct doorobj_t
 {
     byte tilex, tiley;
-    boolean vertical;
+    bool vertical;
     byte lock;
     doortype action;
     short ticcount;
@@ -1142,7 +1142,7 @@ using statefunc = void(objtype*);
 
 struct statetype
 {
-    boolean   rotate;
+    uint8_t   rotate;
     short     shapenum; // a shapenum of -1 means get from ob->temp1
     short     tictime;
     statefunc *think;
@@ -1244,7 +1244,7 @@ struct Game
     short episode, secretcount, treasurecount, killcount, secrettotal, treasuretotal, killtotal;
     int32_t TimeCount;
     int32_t killx, killy;
-    boolean victoryflag; // set during victory animations
+    bool victoryflag; // set during victory animations
 };
 
 enum class ExitType

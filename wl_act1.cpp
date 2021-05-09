@@ -285,7 +285,7 @@ word doorposition[MAXDOORS]; // leading edge of door 0=closed
 
 byte areaconnect[NUMAREAS][NUMAREAS];
 
-boolean areabyplayer[NUMAREAS];
+bool areabyplayer[NUMAREAS];
 
 /*
 ==============
@@ -350,7 +350,7 @@ void InitDoorList(void)
 ===============
 */
 
-void SpawnDoor(int tilex, int tiley, boolean vertical, int lock)
+void SpawnDoor(int tilex, int tiley, bool vertical, int lock)
 {
     word *map;
 

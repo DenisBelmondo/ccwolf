@@ -6,7 +6,7 @@
 #include "cc_types.hpp"
 using namespace CcWolf::Types;
 
-extern boolean loadedgame;
+extern bool loadedgame;
 extern fixed focallength;
 extern int viewscreenx, viewscreeny;
 extern int viewwidth;
@@ -21,7 +21,7 @@ extern int mouseadjustment;
 extern int shootdelta;
 extern unsigned screenofs;
 
-extern boolean startgame;
+extern bool startgame;
 extern char str[80];
 extern char configdir[256];
 extern char configname[13];
@@ -29,8 +29,8 @@ extern char configname[13];
 //
 // Command line parameter variables
 //
-extern boolean param_debugmode;
-extern boolean param_nowait;
+extern bool param_debugmode;
+extern bool param_nowait;
 extern int param_difficulty;
 extern int param_tedlevel;
 extern int param_joystickindex;
@@ -38,15 +38,15 @@ extern int param_joystickhat;
 extern int param_samplerate;
 extern int param_audiobuffer;
 extern int param_mission;
-extern boolean param_goodtimes;
-extern boolean param_ignorenumchunks;
+extern bool param_goodtimes;
+extern bool param_ignorenumchunks;
 
 void NewGame(int difficulty, int episode);
 void CalcProjection(int32_t focal);
 void NewViewSize(int width);
-boolean SetViewSize(unsigned width, unsigned height);
-boolean LoadTheGame(FILE *file, int x, int y);
-boolean SaveTheGame(FILE *file, int x, int y);
+bool SetViewSize(unsigned width, unsigned height);
+bool LoadTheGame(FILE *file, int x, int y);
+bool SaveTheGame(FILE *file, int x, int y);
 void ShowViewSize(int width);
 void ShutdownId(void);
 

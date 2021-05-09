@@ -91,8 +91,8 @@ void FreeLatchMem();
 
 void VL_Flip();
 void VH_Startup();
-boolean FizzleFade(SDL_Surface *source, int x1, int y1, unsigned width, unsigned height, unsigned frames,
-                   boolean abortable);
+bool FizzleFade(SDL_Surface *source, int x1, int y1, unsigned width, unsigned height, unsigned frames,
+                   bool abortable);
 
 #define NUMLATCHPICS 100
 extern SDL_Surface *latchpics[NUMLATCHPICS];

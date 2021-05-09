@@ -94,14 +94,15 @@ typedef int ScanCode;
 
 #define key_None 0
 
-typedef enum
+enum class Demo
 {
     demo_Off,
     demo_Record,
     demo_Playback,
     demo_PlayDone
-} Demo;
-typedef enum
+};
+
+enum class ControlType
 {
     ctrl_Keyboard,
     ctrl_Keyboard1 = ctrl_Keyboard,
@@ -110,16 +111,18 @@ typedef enum
     ctrl_Joystick1 = ctrl_Joystick,
     ctrl_Joystick2,
     ctrl_Mouse
-} ControlType;
-typedef enum
+};
+
+enum class Motion
 {
     motion_Left = -1,
     motion_Up = -1,
     motion_None = 0,
     motion_Right = 1,
     motion_Down = 1
-} Motion;
-typedef enum
+};
+
+enum class Direction
 {
     dir_North,
     dir_NorthEast,
@@ -130,32 +133,37 @@ typedef enum
     dir_West,
     dir_NorthWest,
     dir_None
-} Direction;
-typedef struct
+};
+
+struct CursorInfo
 {
-    boolean button0, button1, button2, button3;
+    bool button0, button1, button2, button3;
     short x, y;
     Motion xaxis, yaxis;
     Direction dir;
-} CursorInfo;
+};
+
 typedef CursorInfo ControlInfo;
-typedef struct
+
+struct KeyboardDef
 {
     ScanCode button0, button1, upleft, up, upright, left, right, downleft, down, downright;
-} KeyboardDef;
-typedef struct
+};
+
+struct JoystickDef
 {
     word joyMinX, joyMinY, threshMinX, threshMinY, threshMaxX, threshMaxY, joyMaxX, joyMaxY, joyMultXL, joyMultYL,
         joyMultXH, joyMultYH;
-} JoystickDef;
+};
+
 // Global variables
-extern /*volatile*/ std::map<ScanCode, boolean> Keyboard;
-extern boolean MousePresent;
-extern volatile boolean Paused;
+extern std::map<ScanCode, bool> Keyboard;
+extern bool MousePresent;
+extern volatile bool Paused;
 extern volatile char LastASCII;
-extern /*volatile*/ ScanCode LastScan;
+extern ScanCode LastScan;
 extern int JoyNumButtons;
-extern boolean forcegrabmouse;
+extern bool forcegrabmouse;
 
 // Function prototypes
 #define IN_KeyDown(code) (Keyboard[(code)])
@@ -173,7 +181,7 @@ extern void IN_ReadControl(int, ControlInfo *);
 extern void IN_GetJoyAbs(word joy, word *xp, word *yp);
 extern void IN_SetupJoy(word joy, word minx, word maxx, word miny, word maxy);
 extern void IN_StopDemo(void), IN_FreeDemoBuffer(void), IN_Ack(void);
-extern boolean IN_UserInput(longword delay);
+extern bool IN_UserInput(longword delay);
 extern char IN_WaitForASCII(void);
 extern ScanCode IN_WaitForKey(void);
 extern word IN_GetJoyButtonsDB(word joy);
@@ -184,14 +192,14 @@ void IN_ProcessEvents();
 
 int IN_MouseButtons(void);
 
-boolean IN_JoyPresent();
+bool IN_JoyPresent();
 void IN_SetJoyCurrent(int joyIndex);
 int IN_JoyButtons(void);
 void IN_GetJoyDelta(int *dx, int *dy);
 void IN_GetJoyFineDelta(int *dx, int *dy);
 
 void IN_StartAck(void);
-boolean IN_CheckAck(void);
+bool IN_CheckAck(void);
 bool IN_IsInputGrabbed();
 void IN_CenterMouse();
 

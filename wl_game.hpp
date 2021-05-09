@@ -27,7 +27,7 @@ void RecordDemo(void);
 #ifdef SPEAR
 extern int32_t spearx, speary;
 extern unsigned spearangle;
-extern boolean spearflag;
+extern bool spearflag;
 #endif
 
 #define ClearMemory SD_StopDigitized

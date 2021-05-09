@@ -1955,8 +1955,8 @@ int MouseSensitivity(int)
         ReadAnyControl(&ci);
         switch (ci.dir)
         {
-        case dir_North:
-        case dir_West:
+        case Direction::dir_North:
+        case Direction::dir_West:
             if (mouseadjustment)
             {
                 mouseadjustment--;
@@ -1970,8 +1970,8 @@ int MouseSensitivity(int)
             }
             break;
 
-        case dir_South:
-        case dir_East:
+        case Direction::dir_South:
+        case Direction::dir_East:
             if (mouseadjustment < 9)
             {
                 mouseadjustment++;
@@ -2375,7 +2375,7 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
         //
         switch (ci.dir)
         {
-        case dir_West:
+        case Direction::dir_West:
             do
             {
                 which--;
@@ -2384,12 +2384,12 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
             } while (!cust->allowed[which]);
             redraw = 1;
             SD_PlaySound(MOVEGUN1SND);
-            while (ReadAnyControl(&ci), ci.dir != dir_None)
+            while (ReadAnyControl(&ci), ci.dir != Direction::dir_None)
                 SDL_Delay(5);
             IN_ClearKeysDown();
             break;
 
-        case dir_East:
+        case Direction::dir_East:
             do
             {
                 which++;
@@ -2398,12 +2398,12 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
             } while (!cust->allowed[which]);
             redraw = 1;
             SD_PlaySound(MOVEGUN1SND);
-            while (ReadAnyControl(&ci), ci.dir != dir_None)
+            while (ReadAnyControl(&ci), ci.dir != Direction::dir_None)
                 SDL_Delay(5);
             IN_ClearKeysDown();
             break;
-        case dir_North:
-        case dir_South:
+        case Direction::dir_North:
+        case Direction::dir_South:
             exit = 1;
         default:
             break;
@@ -2804,8 +2804,8 @@ int CP_ChangeView(int)
         ReadAnyControl(&ci);
         switch (ci.dir)
         {
-        case dir_South:
-        case dir_West:
+        case Direction::dir_South:
+        case Direction::dir_West:
             newview--;
             if (newview < 4)
                 newview = 4;
@@ -2818,8 +2818,8 @@ int CP_ChangeView(int)
             TicDelay(10);
             break;
 
-        case dir_North:
-        case dir_East:
+        case Direction::dir_North:
+        case Direction::dir_East:
             newview++;
             if (newview >= 21)
             {
@@ -3272,7 +3272,7 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
             //
             // MOVE UP
             //
-        case dir_North:
+        case Direction::dir_North:
 
             EraseGun(item_i, items, x, y, which);
 
@@ -3307,7 +3307,7 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
             //
             // MOVE DOWN
             //
-        case dir_South:
+        case Direction::dir_South:
 
             EraseGun(item_i, items, x, y, which);
             //
@@ -3453,7 +3453,7 @@ void TicDelay(int count)
     {
         SDL_Delay(5);
         ReadAnyControl(&ci);
-    } while ((int32_t)GetTimeCount() - startTime < count && ci.dir != dir_None);
+    } while ((int32_t)GetTimeCount() - startTime < count && ci.dir != Direction::dir_None);
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -3545,23 +3545,23 @@ void ReadAnyControl(ControlInfo *ci)
 
         if (mousey - CENTERY < -SENSITIVE)
         {
-            ci->dir = dir_North;
+            ci->dir = Direction::dir_North;
             mouseactive = 1;
         }
         else if (mousey - CENTERY > SENSITIVE)
         {
-            ci->dir = dir_South;
+            ci->dir = Direction::dir_South;
             mouseactive = 1;
         }
 
         if (mousex - CENTERX < -SENSITIVE)
         {
-            ci->dir = dir_West;
+            ci->dir = Direction::dir_West;
             mouseactive = 1;
         }
         else if (mousex - CENTERX > SENSITIVE)
         {
-            ci->dir = dir_East;
+            ci->dir = Direction::dir_East;
             mouseactive = 1;
         }
 
@@ -3584,14 +3584,14 @@ void ReadAnyControl(ControlInfo *ci)
 
         IN_GetJoyDelta(&jx, &jy);
         if (jy < -SENSITIVE)
-            ci->dir = dir_North;
+            ci->dir = Direction::dir_North;
         else if (jy > SENSITIVE)
-            ci->dir = dir_South;
+            ci->dir = Direction::dir_South;
 
         if (jx < -SENSITIVE)
-            ci->dir = dir_West;
+            ci->dir = Direction::dir_West;
         else if (jx > SENSITIVE)
-            ci->dir = dir_East;
+            ci->dir = Direction::dir_East;
 
         jb = IN_JoyButtons();
         if (jb)

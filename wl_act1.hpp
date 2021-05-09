@@ -11,7 +11,7 @@ extern word doorposition[MAXDOORS];
 
 extern byte areaconnect[NUMAREAS][NUMAREAS];
 
-extern boolean areabyplayer[NUMAREAS];
+extern bool areabyplayer[NUMAREAS];
 
 extern word pwallstate;
 extern word pwallpos; // amount a pushable wall has been moved (0-63)
@@ -21,7 +21,7 @@ extern byte pwalldir, pwalltile;
 void InitDoorList(void);
 void InitStaticList(void);
 void SpawnStatic(int tilex, int tiley, int type);
-void SpawnDoor(int tilex, int tiley, boolean vertical, int lock);
+void SpawnDoor(int tilex, int tiley, bool vertical, int lock);
 void MoveDoors(void);
 void MovePWalls(void);
 void OpenDoor(int door);

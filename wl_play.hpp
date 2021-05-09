@@ -28,11 +28,11 @@ extern int lastgamemusicoffset;
 // current user input
 //
 extern int controlx, controly; // range from -100 to 100
-extern boolean buttonstate[NUMBUTTONS];
+extern bool buttonstate[NUMBUTTONS];
 extern objtype objlist[MAXACTORS];
-extern boolean buttonheld[NUMBUTTONS];
+extern bool buttonheld[NUMBUTTONS];
 extern ExitType playstate;
-extern boolean madenoise;
+extern bool madenoise;
 extern statobj_t statobjlist[MAXSTATS];
 extern statobj_t *laststatobj;
 extern objtype *newobj, *killerobj;
@@ -40,14 +40,14 @@ extern doorobj_t doorobjlist[MAXDOORS];
 extern doorobj_t *lastdoorobj;
 extern int godmode;
 
-extern boolean demorecord, demoplayback;
+extern bool demorecord, demoplayback;
 extern int8_t *demoptr, *lastdemoptr;
 extern memptr demobuffer;
 
 //
 // control info
 //
-extern boolean mouseenabled, joystickenabled;
+extern bool mouseenabled, joystickenabled;
 extern int dirscan[4];
 extern int buttonscan[NUMBUTTONS];
 extern int buttonmouse[4];
@@ -76,7 +76,7 @@ extern int32_t funnyticount; // FOR FUNNY BJ FACE
 
 extern objtype *objfreelist; // *obj,*player,*lastobj,
 
-extern boolean noclip, ammocheat;
+extern bool noclip, ammocheat;
 extern int singlestep, extravbls;
 
 #endif // WL_PLAY_H

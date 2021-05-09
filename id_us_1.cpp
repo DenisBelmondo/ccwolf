@@ -33,7 +33,7 @@ word WindowX, WindowY, WindowW, WindowH;
 //	Internal variables
 #define ConfigVersion 1
 
-static boolean US_Started;
+static bool US_Started;
 
 void (*USL_MeasureString)(const char *, word *, word *) = VW_MeasurePropString;
 void (*USL_DrawString)(const char *) = VWB_DrawPropString;
@@ -399,7 +399,7 @@ void US_RestoreWindow(WindowRec *win)
 ///////////////////////////////////////////////////////////////////////////
 static void USL_XORICursor(int x, int y, const char *s, word cursor)
 {
-    static boolean status; // VGA doesn't XOR...
+    static bool status; // VGA doesn't XOR...
     char buf[MaxString];
     int temp;
     word w, h;
@@ -453,9 +453,9 @@ char USL_RotateChar(char ch, int dir)
 //		returned
 //
 ///////////////////////////////////////////////////////////////////////////
-boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok, int maxchars, int maxwidth)
+bool US_LineInput(int x, int y, char *buf, const char *def, bool escok, int maxchars, int maxwidth)
 {
-    boolean redraw, cursorvis, cursormoved, done, result, checkkey;
+    bool redraw, cursorvis, cursormoved, done, result, checkkey;
     ScanCode sc;
     char c;
     char s[MaxString], olds[MaxString];
@@ -463,7 +463,7 @@ boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok, in
     word i, w, h, temp;
     longword curtime, lasttime, lastdirtime, lastbuttontime, lastdirmovetime;
     ControlInfo ci;
-    Direction lastdir = dir_None;
+    Direction lastdir = Direction::dir_None;
 
     if (def)
         strcpy(s, def);
@@ -506,7 +506,7 @@ boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok, in
 
             switch (ci.dir)
             {
-            case dir_West:
+            case Direction::dir_West:
                 if (cursor)
                 {
                     // Remove trailing whitespace if cursor is at end of string
@@ -517,7 +517,7 @@ boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok, in
                 cursormoved = true;
                 checkkey = false;
                 break;
-            case dir_East:
+            case Direction::dir_East:
                 if (cursor >= MaxString - 1)
                     break;
 
@@ -535,7 +535,7 @@ boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok, in
                 checkkey = false;
                 break;
 
-            case dir_North:
+            case Direction::dir_North:
                 if (!s[cursor])
                 {
                     USL_MeasureString(s, &w, &h);
@@ -548,7 +548,7 @@ boolean US_LineInput(int x, int y, char *buf, const char *def, boolean escok, in
                 checkkey = false;
                 break;
 
-            case dir_South:
+            case Direction::dir_South:
                 if (!s[cursor])
                 {
                     USL_MeasureString(s, &w, &h);

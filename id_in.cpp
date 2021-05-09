@@ -30,12 +30,12 @@
 //
 // configuration variables
 //
-boolean MousePresent;
-boolean forcegrabmouse;
+bool MousePresent;
+bool forcegrabmouse;
 
 // 	Global variables
-/*volatile*/ std::map<ScanCode, boolean> Keyboard;
-volatile boolean Paused;
+/*volatile*/ std::map<ScanCode, bool> Keyboard;
+volatile bool Paused;
 volatile char LastASCII;
 /*volatile*/ ScanCode LastScan;
 
@@ -104,10 +104,12 @@ byte SpecialNames[] = // ASCII for 0xe0 prefixed codes
         0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0,  0, 0, 0  // 7
 };
 
-static boolean IN_Started;
+static bool IN_Started;
 
 static Direction DirTable[] = // Quick lookup for total direction
-    {dir_NorthWest, dir_North, dir_NorthEast, dir_West, dir_None, dir_East, dir_SouthWest, dir_South, dir_SouthEast};
+    {Direction::dir_NorthWest, Direction::dir_North, Direction::dir_NorthEast,
+     Direction::dir_West,      Direction::dir_None,  Direction::dir_East,
+     Direction::dir_SouthWest, Direction::dir_South, Direction::dir_SouthEast};
 
 ///////////////////////////////////////////////////////////////////////////
 //
@@ -229,7 +231,7 @@ int IN_JoyButtons()
     return res;
 }
 
-boolean IN_JoyPresent()
+bool IN_JoyPresent()
 {
     return Joystick != NULL;
 }
@@ -469,37 +471,37 @@ void IN_ReadControl(int player, ControlInfo *info)
     Motion mx, my;
 
     dx = dy = 0;
-    mx = my = motion_None;
+    mx = my = Motion::motion_None;
     buttons = 0;
 
     IN_ProcessEvents();
 
     if (Keyboard[KbdDefs.upleft])
-        mx = motion_Left, my = motion_Up;
+        mx = Motion::motion_Left, my = Motion::motion_Up;
     else if (Keyboard[KbdDefs.upright])
-        mx = motion_Right, my = motion_Up;
+        mx = Motion::motion_Right, my = Motion::motion_Up;
     else if (Keyboard[KbdDefs.downleft])
-        mx = motion_Left, my = motion_Down;
+        mx = Motion::motion_Left, my = Motion::motion_Down;
     else if (Keyboard[KbdDefs.downright])
-        mx = motion_Right, my = motion_Down;
+        mx = Motion::motion_Right, my = Motion::motion_Down;
 
     if (Keyboard[KbdDefs.up])
-        my = motion_Up;
+        my = Motion::motion_Up;
     else if (Keyboard[KbdDefs.down])
-        my = motion_Down;
+        my = Motion::motion_Down;
 
     if (Keyboard[KbdDefs.left])
-        mx = motion_Left;
+        mx = Motion::motion_Left;
     else if (Keyboard[KbdDefs.right])
-        mx = motion_Right;
+        mx = Motion::motion_Right;
 
     if (Keyboard[KbdDefs.button0])
         buttons += 1 << 0;
     if (Keyboard[KbdDefs.button1])
         buttons += 1 << 1;
 
-    dx = mx * 127;
-    dy = my * 127;
+    dx = int(mx) * 127;
+    dy = int(my) * 127;
 
     info->x = dx;
     info->xaxis = mx;
@@ -509,7 +511,7 @@ void IN_ReadControl(int player, ControlInfo *info)
     info->button1 = (buttons & (1 << 1)) != 0;
     info->button2 = (buttons & (1 << 2)) != 0;
     info->button3 = (buttons & (1 << 3)) != 0;
-    info->dir = DirTable[((my + 1) * 3) + (mx + 1)];
+    info->dir = DirTable[((int(my) + 1) * 3) + (int(mx) + 1)];
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -551,7 +553,7 @@ char IN_WaitForASCII(void)
 //
 ///////////////////////////////////////////////////////////////////////////
 
-boolean btnstate[NUMBUTTONS];
+bool btnstate[NUMBUTTONS];
 
 void IN_StartAck(void)
 {
@@ -572,7 +574,7 @@ void IN_StartAck(void)
             btnstate[i] = true;
 }
 
-boolean IN_CheckAck(void)
+bool IN_CheckAck(void)
 {
     IN_ProcessEvents();
     //
@@ -630,7 +632,7 @@ void IN_Ack(void)
 //		button up.
 //
 ///////////////////////////////////////////////////////////////////////////
-boolean IN_UserInput(longword delay)
+bool IN_UserInput(longword delay)
 {
     longword lasttime;
 

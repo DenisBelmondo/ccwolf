@@ -70,7 +70,7 @@ static byte *SoundBuffers[STARTMUSIC - STARTDIGISOUNDS];
 globalsoundpos channelSoundPos[MIX_CHANNELS];
 
 //      Global variables
-boolean AdLibPresent, SoundBlasterPresent, SBProPresent, SoundPositioned;
+bool AdLibPresent, SoundBlasterPresent, SBProPresent, SoundPositioned;
 SDMode SoundMode;
 SMMode MusicMode;
 SDSMode DigiMode;
@@ -79,8 +79,8 @@ int DigiMap[LASTSOUND];
 int DigiChannel[STARTMUSIC - STARTDIGISOUNDS];
 
 //      Internal variables
-static boolean SD_Started;
-static boolean nextsoundpos;
+static bool SD_Started;
+static bool nextsoundpos;
 static soundnames SoundNumber;
 static soundnames DigiNumber;
 static word SoundPriority;
@@ -90,7 +90,7 @@ static int RightPosition;
 
 word NumDigi;
 static digiinfo *DigiList;
-static boolean DigiPlaying;
+static bool DigiPlaying;
 
 //      PC Sound variables
 // static  volatile byte           pcLastSample;
@@ -105,7 +105,7 @@ static longword alTimeCount;
 static Instrument alZeroInst;
 
 //      Sequencer variables
-static volatile boolean sqActive;
+static volatile bool sqActive;
 static word *sqHack;
 static word *sqHackPtr;
 static int sqHackLen;
@@ -325,7 +325,7 @@ void __interrupt SDL_t0SlowAsmService(void)
         outp(0x20, 0x20);
 }
 
-void SDL_IndicatePC(boolean ind)
+void SDL_IndicatePC(bool ind)
 {
     pcindicate = ind;
 }
@@ -412,7 +412,7 @@ void
 #else
 static void
 #endif
-SDL_PCPlaySample(byte *data,longword len,boolean inIRQ)
+SDL_PCPlaySample(byte *data,longword len,bool inIRQ)
 {
     if (!inIRQ)
     {
@@ -691,7 +691,7 @@ void SD_ChannelFinished(int channel)
 
 void SD_SetDigiDevice(SDSMode mode)
 {
-    boolean devicenotpresent;
+    bool devicenotpresent;
 
     if (mode == DigiMode)
         return;
@@ -886,7 +886,7 @@ static void SDL_StartAL(void)
 ///////////////////////////////////////////////////////////////////////////
 
 #if 0
-static boolean
+static bool
 SDL_DetectAdLib(void)
 {
     for (int i = 1; i <= 0xf5; i++)       // Zero all the registers
@@ -959,9 +959,9 @@ static void SDL_StartDevice(void)
 //      SD_SetSoundMode() - Sets which sound hardware to use for sound effects
 //
 ///////////////////////////////////////////////////////////////////////////
-boolean SD_SetSoundMode(SDMode mode)
+bool SD_SetSoundMode(SDMode mode)
 {
-    boolean result = false;
+    bool result = false;
     word tableoffset;
 
     SD_StopSound();
@@ -1005,9 +1005,9 @@ boolean SD_SetSoundMode(SDMode mode)
 //      SD_SetMusicMode() - sets the device to use for background music
 //
 ///////////////////////////////////////////////////////////////////////////
-boolean SD_SetMusicMode(SMMode mode)
+bool SD_SetMusicMode(SMMode mode)
 {
-    boolean result = false;
+    bool result = false;
 
     SD_FadeOutMusic();
     while (SD_MusicPlaying())
@@ -1205,9 +1205,9 @@ void SD_PositionSound(int leftvol, int rightvol)
 //      SD_PlaySound() - plays the specified sound on the appropriate hardware
 //
 ///////////////////////////////////////////////////////////////////////////
-boolean SD_PlaySound(soundnames sound)
+bool SD_PlaySound(soundnames sound)
 {
-    boolean ispos;
+    bool ispos;
     SoundCommon *s;
     int lp, rp;
 
@@ -1296,7 +1296,7 @@ boolean SD_PlaySound(soundnames sound)
 ///////////////////////////////////////////////////////////////////////////
 word SD_SoundPlaying(void)
 {
-    boolean result = false;
+    bool result = false;
 
     switch (SoundMode)
     {
@@ -1480,9 +1480,9 @@ void SD_FadeOutMusic(void)
 //              not
 //
 ///////////////////////////////////////////////////////////////////////////
-boolean SD_MusicPlaying(void)
+bool SD_MusicPlaying(void)
 {
-    boolean result;
+    bool result;
 
     switch (MusicMode)
     {
